@@ -1,3 +1,25 @@
+## Projet Olist — Analyse et prédiction des retards de livraison
+
+**Problématique :** analyser les délais de livraison du commerce électronique brésilien et construire un modèle qui estime le risque qu'une commande soit livrée en retard.
+
+**Dataset :** [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce). Le notebook J1 télécharge le dataset public avec `kagglehub` dans `data_raw/olist/`. Les fichiers CSV ne sont pas versionnés dans Git.
+
+### Ordre d'exécution
+
+1. Démarrer le cluster : `docker compose up -d --build`
+2. Ouvrir JupyterLab : http://localhost:8888 (token `bigdata`)
+3. Exécuter intégralement `J1_HDFS_Ingestion_Bronze.ipynb`.
+4. Exécuter intégralement `J2_Spark_Delta_Silver.ipynb`.
+5. Exécuter intégralement `J3_Analytics_SQL_Gold.ipynb`.
+6. Exécuter intégralement `J4_Stats_Segmentation_Dashboard.ipynb`.
+7. Ouvrir le dashboard : http://localhost:8501
+
+**Tables Bronze :** orders, customers, order_items, products, sellers, payments, reviews, geolocation, category_translation.
+
+**Table Silver :** `orders_enriched`.
+
+**Tables Gold :** `late_orders_by_state`, `monthly_delivery`, `category_performance`, `customer_segments`. Le modèle supervisé est sauvegardé dans `late_delivery_random_forest`.
+
 # TP Big Data Lakehouse — HDFS (3 DataNodes) + PySpark + Delta Lake + Streamlit
 
 Environnement pédagogique complet compatible nativement **`linux/amd64` (PC x86_64 / WSL2)** et **`linux/arm64` (Apple Silicon M1–M4 / Linux ARM64)** sur **Ubuntu 26.04 LTS**, reposant sur un **cluster HDFS 3.5 réel distribué (1 NameNode + 3 DataNodes)** avec blocs réduits à **16 Mo** et détection de panne abaissée à **~50 secondes**, couplé à une image mutualisée légère (`ubuntu:26.04` + **Python 3.15** via `uv` + OpenJDK 21 + JARs Delta pré-embarqués) pour **PySpark 4.2**, **Delta Lake 4.4**, **JupyterLab 4.6** et **Streamlit**.
@@ -167,28 +189,6 @@ task clean                               # Arrêter et purger les volumes HDFS
 ```
 
 ---
-
-## Projet Olist — Analyse et prédiction des retards de livraison
-
-**Problématique :** analyser les délais de livraison du commerce électronique brésilien et construire un modèle qui estime le risque qu'une commande soit livrée en retard.
-
-**Dataset :** [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce). Le notebook J1 télécharge le dataset public avec `kagglehub` dans `data_raw/olist/`. Les fichiers CSV ne sont pas versionnés dans Git.
-
-### Ordre d'exécution
-
-1. Démarrer le cluster : `docker compose up -d --build`
-2. Ouvrir JupyterLab : http://localhost:8888 (token `bigdata`)
-3. Exécuter intégralement `J1_HDFS_Ingestion_Bronze.ipynb`.
-4. Exécuter intégralement `J2_Spark_Delta_Silver.ipynb`.
-5. Exécuter intégralement `J3_Analytics_SQL_Gold.ipynb`.
-6. Exécuter intégralement `J4_Stats_Segmentation_Dashboard.ipynb`.
-7. Ouvrir le dashboard : http://localhost:8501
-
-**Tables Bronze :** orders, customers, order_items, products, sellers, payments, reviews, geolocation, category_translation.
-
-**Table Silver :** `orders_enriched`.
-
-**Tables Gold :** `late_orders_by_state`, `monthly_delivery`, `category_performance`, `customer_segments`. Le modèle supervisé est sauvegardé dans `late_delivery_random_forest`.
 
 ### Précautions et limites
 
